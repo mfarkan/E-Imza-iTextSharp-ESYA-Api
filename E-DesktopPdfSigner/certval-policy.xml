@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<policy>
+    <find>
+        <trustedcertificate>
+		
+            <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.find.certificate.trusted.TrustedCertificateFinderFromECertStore"/>
+			
+			<class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.find.certificate.trusted.TrustedCertificateFinderFromXml">				
+				<param name="storepath" value="http://depo.kamusm.gov.tr/depo/SertifikaDeposu.xml"/>
+			</class>
+			
+        </trustedcertificate>
+        <certificate>
+            <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.find.certificate.CertificateFinderFromECertStore"/>
+			<class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.find.certificate.CertificateFinderFromHTTP"/>
+            <class name = "tr.gov.tubitak.uekae.esya.api.certificate.validation.find.certificate.CertificateFinderFromLDAP"/>
+		</certificate>
+        <deltacrl/>
+    </find>  
+    <match>
+        <certificate>
+            <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.match.certificate.IssuerSubjectMatcher"/>
+        </certificate>
+        <crl>
+            <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.match.crl.CRLIssuerMatcher"/>
+        </crl>
+        <deltacrl>
+            <class name = "tr.gov.tubitak.uekae.esya.api.certificate.validation.match.deltacrl.BaseCRLNumberMatcher"/>
+            <class name = "tr.gov.tubitak.uekae.esya.api.certificate.validation.match.deltacrl.CRLNumberMatcher"/>
+            <class name = "tr.gov.tubitak.uekae.esya.api.certificate.validation.match.deltacrl.DeltaCRLIssuerMatcher"/>
+            <class name = "tr.gov.tubitak.uekae.esya.api.certificate.validation.match.deltacrl.ScopeMatcher"/>
+        </deltacrl>
+		<ocsp>
+			<class name = "tr.gov.tubitak.uekae.esya.api.certificate.validation.match.ocsp.CertIDOCSPResponseMatcher"/>
+		</ocsp>
+    </match>
+	<save>
+		<crl>
+			<class name = "tr.gov.tubitak.uekae.esya.api.certificate.validation.save.CertStoreCRLSaver"/>
+		</crl>
+        <ocsp>
+            <class name = "tr.gov.tubitak.uekae.esya.api.certificate.validation.save.CertStoreOCSPResponseSaver"/>
+        </ocsp>
+        <certificate>
+            <class name = "tr.gov.tubitak.uekae.esya.api.certificate.validation.save.CertStoreCertificateSaver"/>
+        </certificate>
+	</save>
+    <validate>
+        <certificate>
+            <self>
+                <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.certificate.self.SignatureAlgConsistencyChecker"/>
+                <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.certificate.self.PositiveSerialNumberChecker"/>
+                <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.certificate.self.CertificateDateChecker"/>
+                <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.certificate.self.CertificateExtensionChecker"/>
+                <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.certificate.self.VersionChecker"/>
+				<class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.certificate.self.QualifiedCertificateChecker">
+					<param name="statementoids" value="(0.4.0.1862.1.1 AND 2.16.792.1.61.0.1.5070.1.1)"/>
+				</class>
+            </self>
+            <trustedcertificate>
+                <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.certificate.self.SelfSignatureChecker"/>
+                <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.certificate.self.CertificateDateChecker"/>
+            </trustedcertificate>
+            <issuer>
+                <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.certificate.issuer.BasicConstraintCAChecker"/>
+                <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.certificate.issuer.PathLenConstraintChecker"/>
+                <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.certificate.issuer.KeyIdentifierChecker"/>
+                <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.certificate.issuer.CertificateKeyUsageChecker"/>
+                <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.certificate.issuer.CertificateNameChecker"/>
+                <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.certificate.issuer.CertificateSignatureChecker"/>
+            </issuer>
+            <revocation>
+			
+			    <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.certificate.revocation.RevocationFromCRLChecker">
+                    <param name ="cevrimdisicalis" value="false"/>
+                    <param name ="checkallcrls" value="false"/>
+                    <param name ="devam" value="false"/>
+                    <find>
+					    <class name = "tr.gov.tubitak.uekae.esya.api.certificate.validation.find.crl.CRLFinderFromECertStore">
+			     			<param name = "getactivecrl" value="true"/>
+			     		</class>
+			     		<class name = "tr.gov.tubitak.uekae.esya.api.certificate.validation.find.crl.CRLFinderFromECertStore"/>						
+                        <class name = "tr.gov.tubitak.uekae.esya.api.certificate.validation.find.crl.CRLFinderFromHTTP"/>
+                        <class name = "tr.gov.tubitak.uekae.esya.api.certificate.validation.find.crl.CRLFinderfromLDAP"/>
+                    </find>
+                </class>
+				
+                <class name = "tr.gov.tubitak.uekae.esya.api.certificate.validation.check.certificate.revocation.RevocationFromOCSPChecker">
+                    <param name ="devam" value="false"/>
+                    <find>
+					    <class name = "tr.gov.tubitak.uekae.esya.api.certificate.validation.find.ocsp.OCSPResponseFinderFromECertStore"/>
+                        <class name = "tr.gov.tubitak.uekae.esya.api.certificate.validation.find.ocsp.OCSPResponseFinderFromAIA"/>                        
+                    </find>
+                </class>
+                
+			</revocation>
+        </certificate>
+        <crl>
+            <crlself>
+                <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.crl.self.CRLDateChecker"/>
+                <class name = "tr.gov.tubitak.uekae.esya.api.certificate.validation.check.crl.self.CRLExtensionChecker"/>
+            </crlself>
+            <crlissuer>
+                <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.crl.issuer.CRLSignatureChecker"/>
+                <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.crl.issuer.CRLKeyUsageChecker"/>
+            </crlissuer>
+        </crl>
+		<ocsp>
+            <class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.ocsp.OCSPResponseDateChecker"/>
+			<class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.ocsp.ResponseStatusChecker"/>
+			<class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.ocsp.SigningCertificateChecker"/>
+			<class name="tr.gov.tubitak.uekae.esya.api.certificate.validation.check.ocsp.OCSPSignatureChecker"/>
+		</ocsp>
+    </validate>
+    <parameters>
+        <UserPolicySet value="2.5.29.32.0"/>
+        <InitialExplicitPolicy value="false"/>
+        <InitialAnyPolicyInhibit value="false"/>
+        <InitialPolicyMappingInhibit value="false"/>
+    </parameters>
+</policy>

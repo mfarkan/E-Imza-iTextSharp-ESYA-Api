@@ -1,0 +1,115 @@
+<smartcard-config>
+  <!-- For any card-type declaration to be useful
+        atr definitions are required! -->
+  <card-type name="AEPKEYPER">
+    <lib name="bp201w32HSM"/>
+  </card-type>
+
+  <card-type name="AKIS">
+    <lib name="akisp11"/>
+    <atr value="3BBA11008131FE4D55454B41452056312E30AE"/>
+    <atr value="3B9F968131FE45806755454B41451112318073B3A180E9"/>
+    <atr value="3B9F968131FE45806755454B41451212318073B3A180EA"/>
+    <atr value="3B9F968131FE45806755454B41451213318073B3A180EB"/>
+    <atr value="3B9F968131FE45806755454B41451252318073B3A180AA"/>
+    <atr value="3B9F968131FE45806755454B41451253318073B3A180AB"/>
+    <atr value="3B9F158131FE45806755454B41451221318073B3A1805A"/>
+    <atr value="3B9F968131FE45806755454B41451221318073B3A180D9"/>
+    <atr value="3B9F138131FE45806755454B41451221318073B3A1805C"/>
+    <atr value="3B9F138131FE45806755454B41451261318073B3A1801C"/>
+    <atr value="3B9F158131FE45806755454B41451261318073B3A1801A"/>
+    <atr value="3B9F968131FE45806755454B41451261318073B3A18099"/>
+    <atr value="3B9F968131FE458065544320201231C073F621808105B3"/>
+    <atr value="3B9F968131FE45806755454B41451292318073B3A1806A"/>
+    <atr value="3B9F968131FE45806755454B41451293318073B3A1806B"/>
+    <atr value="3B9F968131FE45806755454B41451312318073B3A180EB"/>
+    <atr value="3B9F968131FE45806755454B414512A4318073B3A1805C"/>
+    <atr value="3B9F968131FE45806755454B414512A5318073B3A1805D"/>
+    <atr value="3B9F978131FE458065544312210031C073F62180810593"/>
+    <atr value="3B9F978131FE4580655443D2210831C073F6218081055B"/>
+    <atr value="3B9F978131FE4580655443E4210831C073F6218081056D"/>
+    <atr value="3B9F968131FE4580655443D3210831C073F6218081055B"/>
+  </card-type>
+
+  <card-type name="ALADDIN">
+    <lib name="eTPKCS11"/>
+    <atr value="3BD5180081313A7D8073C8211030"/>
+    <atr value="3BD518008131FE7D8073C82110F4"/>
+  </card-type>
+
+  <card-type name="ATIKKG">
+    <lib name="atikKg_jni"/>
+  </card-type>
+
+  <card-type name="ATIKHSM">
+    <lib name="uhsmpkcs11" arch="32"/>
+    <lib name="uhsmpkcs11x64" arch="64"/>
+  </card-type>
+
+  <card-type name="CARDOS">
+    <lib name="cmp11"/>
+  </card-type>
+
+  <card-type name="DATAKEY">
+    <lib name="dkck201"/>
+    <atr value="3BFF1100008131FE4D8025A00000005657444B3333300600D0"/>
+  </card-type>
+
+
+  <card-type name="GEMPLUS">
+    <lib name="gclib"/>
+    <atr value="3B7D94000080318065B08301029083009000"/>
+    <atr value="3B6D000080318065B08301029083009000"/>
+    <!-- atr value="3B6D00008065B08301019083009000"/> //Historical Byte yok. -->
+  </card-type>
+
+  <card-type name="KEYCORP">
+    <lib name="spmp1132"/>
+    <atr value="3BB79400C03E31FE6553504B32339000AE"/>
+  </card-type>
+
+  <card-type name="Net-ID">
+    <lib name="iidp11"/>
+  </card-type>
+
+  <card-type name="NCIPHER">
+    <lib name="cknfast" arch="32"/>
+    <lib name="cknfast-64" arch="64"/>
+  </card-type>
+
+  <card-type name="SAFENET">
+    <lib name="cryptoki"/>
+  </card-type>
+
+  <card-type name="SAFESIGN">
+    <lib name="aetpkss1"/>
+    <atr value="3BBB1800C01031FE4580670412B00303000081053C"/>
+    <atr value="3BFA1800FF8131FE454A434F5032315632333165"/>
+  </card-type>
+
+
+  <card-type name="SEFIROT">
+    <lib name="pkcs11sfr"/>
+  </card-type>
+
+  <card-type name="TKART">
+    <lib name="siecap11"/>
+    <atr value="3BF2180002C10A31FE58C80874"/>
+    <!-- //Historical Byte yok -->
+  </card-type>
+
+  <card-type name="UTIMACO">
+    <lib name="cs2_pkcs11"/>
+  </card-type>
+
+  <card-type name="UTIMACO_R2">
+    <lib name="cs_pkcs11_R2"/>
+  </card-type>
+
+  <!--card-type name="SampleCARD">
+         <lib name="libraryNameHere"/>
+         <atr value=""/>
+     </card-type-->
+
+</smartcard-config>
+

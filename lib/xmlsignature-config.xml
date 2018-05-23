@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-signature-config xmlns="http://uekae.tubitak.gov.tr/xml/signature#">
+
+    <locale language="tr" country="TR"/>
+
+    <http>
+        <proxy-host></proxy-host>
+        <proxy-port></proxy-port>
+        <proxy-username></proxy-username>
+        <proxy-password></proxy-password>
+        <basic-authentication-username></basic-authentication-username>
+        <basic-authentication-password></basic-authentication-password>
+        <connection-timeout-in-milliseconds>2000</connection-timeout-in-milliseconds>
+    </http>
+
+    <!--
+    IdResolver, DOMResolver, HttpResolver, XPointerResolver, FileResolver;
+    -->
+    <resolvers>
+        <resolver class="tr.gov.tubitak.uekae.esya.api.xmlsignature.resolver.IdResolver"/>
+        <resolver class="tr.gov.tubitak.uekae.esya.api.xmlsignature.resolver.DOMResolver"/>
+        <resolver class="tr.gov.tubitak.uekae.esya.api.xmlsignature.resolver.HttpResolver"/>
+        <resolver class="tr.gov.tubitak.uekae.esya.api.xmlsignature.resolver.XPointerResolver"/>
+        <resolver class="tr.gov.tubitak.uekae.esya.api.xmlsignature.resolver.FileResolver"/>
+    </resolvers>
+
+    <timestamp-server>
+        <host>http://tzd.kamusm.gov.tr</host>
+        <digest-alg>SHA-1</digest-alg>
+        <!-- leave below settings blank, if not ESYA Timestamp Server! -->
+        <userid>21</userid>
+        <password>12345678</password>
+    </timestamp-server>
+
+    <algorithms>
+        <digest-method>http://www.w3.org/2001/04/xmlenc#sha256</digest-method>
+    </algorithms>
+
+    <validation>
+        <!-- default policy for certificate validation -->
+        <certificate-validation-policy-file>certval-policy.xml</certificate-validation-policy-file>
+        <certificate-validation-policy-file for="MaliMuhurCertificate">certval-policy-malimuhur.xml</certificate-validation-policy-file>
+        <!-- grace period is the time that needs to pass to get exact revocation info-->
+        <grace-period-in-seconds>8640000</grace-period-in-seconds>
+        <!-- how old revocation data should be accepted? -->
+        <last-revocation-period-in-seconds>17280000</last-revocation-period-in-seconds>
+        <!-- compare resolved policy with the one at policy uri, if indicated -->
+        <check-policy-uri>false</check-policy-uri>
+
+        <!-- loosening below 2 settings will cause warnings instead of validation failure -->
+        <!-- referenced validation data must be used for cert validation is set true -->
+        <force-strict-reference-use>true</force-strict-reference-use>
+        <!-- validation data must be published after creation ifs set true, requires grace period for signers -->
+        <use-validation-data-published-after-creation>false</use-validation-data-published-after-creation>
+
+        <validate-certificate-before-signing>false</validate-certificate-before-signing>
+
+        <validators>
+            <!--
+            valid profile types are XMLDSig, XAdES_BES, XAdES_EPES,  XAdES_T,
+            XAdES_C, XAdES_X, XAdES_X_L and XAdES_A
+            -->
+            <profile type="XMLDSig">
+            </profile>
+            <profile type="XAdES_BES" inherit-validators-from="XMLDSig">
+                <validator class="tr.gov.tubitak.uekae.esya.api.xmlsignature.validator.AllDataObjectsTimeStampValidator"/>
+                <validator class="tr.gov.tubitak.uekae.esya.api.xmlsignature.validator.DataObjectFormatValidator"/>
+                <validator class="tr.gov.tubitak.uekae.esya.api.xmlsignature.validator.IndividualDataObjectsTimeStampValidator"/>
+                <validator class="tr.gov.tubitak.uekae.esya.api.xmlsignature.validator.SigningCertificateValidator"/>
+                <validator class="tr.gov.tubitak.uekae.esya.api.xmlsignature.validator.SigningTimeValidator"/>
+                <validator class="tr.gov.tubitak.uekae.esya.api.xmlsignature.validator.TurkishESigProfileValidator"/>
+            </profile>
+            <profile type="XAdES_EPES" inherit-validators-from="XAdES_BES" >
+                <validator class="tr.gov.tubitak.uekae.esya.api.xmlsignature.validator.SignaturePolicyValidator"/>
+            </profile>
+            <profile type="XAdES_T" inherit-validators-from="XAdES_EPES">
+                <validator class="tr.gov.tubitak.uekae.esya.api.xmlsignature.validator.SignatureTimeStampValidator"/>
+            </profile>
+            <profile type="XAdES_C" inherit-validators-from="XAdES_T">
+                <validator class="tr.gov.tubitak.uekae.esya.api.xmlsignature.validator.CompleteCertificateRefsValidator"/>
+                <validator class="tr.gov.tubitak.uekae.esya.api.xmlsignature.validator.CompleteRevocationRefsValidator"/>
+                <validator class="tr.gov.tubitak.uekae.esya.api.xmlsignature.validator.AttributeCertificateRefsValidator"/>
+                <validator class="tr.gov.tubitak.uekae.esya.api.xmlsignature.validator.AttributeRevocationRefsValidator"/>
+            </profile>
+            <profile type="XAdES_X" inherit-validators-from="XAdES_C">
+                <validator class="tr.gov.tubitak.uekae.esya.api.xmlsignature.validator.SigAndRefsTimestampValidator"/>
+                <validator class="tr.gov.tubitak.uekae.esya.api.xmlsignature.validator.RefsOnlyTimestampValidator"/>
+            </profile>
+            <profile type="XAdES_X_L" inherit-validators-from="XAdES_X">
+                <validator class="tr.gov.tubitak.uekae.esya.api.xmlsignature.validator.CertificateValuesValidator"/>
+                <validator class="tr.gov.tubitak.uekae.esya.api.xmlsignature.validator.RevocationValuesValidator"/>
+                <validator class="tr.gov.tubitak.uekae.esya.api.xmlsignature.validator.AttrAuthoritiesCertValuesValidator"/>
+                <validator class="tr.gov.tubitak.uekae.esya.api.xmlsignature.validator.AttributeRevocationValuesValidator"/>
+            </profile>
+            <profile type="XAdES_A" inherit-validators-from="XAdES_X_L">
+                <validator class="tr.gov.tubitak.uekae.esya.api.xmlsignature.validator.ArchiveTimestampValidator"/>
+                <!--validator class="tr.gov.tubitak.uekae.esya.api.xmlsignature.validator."/-->
+            </profile>
+        </validators>
+    </validation>
+
+    <parameters>
+        <!-- should referenced validation data be written to signature dir, or
+        certvalidation is configured to write that data to somewhere
+        eg local cert store? -->
+        <write-referencedvalidationdata-to-file-on-upgrade value="false"/>
+
+    </parameters>
+</xml-signature-config>
