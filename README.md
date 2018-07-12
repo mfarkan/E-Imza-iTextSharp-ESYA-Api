@@ -2,15 +2,6 @@
 
 ITextSharp kütüphanesi ile TÜBİTAK KamuSM ESYA API yardımıyla E-imza bilgileri alınarak PDF bilgilerinin imzalandığı Windows Forms uygulaması.
 
-## Uygulama Akış Diyagramı
-
-```mermaid
-graph TD;
-    Uygulama-Girisi --> Kullanicinin-Pdf-Yuklemesi;
-    Kullanicinin-Pdf-Yuklemesi-->Usb-Dongle-Takilmasi;
-    Usb-Dongle-Takilmasi-->Sifre-Girisinin-Yapilmasi;
-	Sifre-Girisinin-Yapilmasi-->Imzali-Pdf'in-olusturulmasi;
-```
 
 ## İmzalanmış Pdf Çıktısı
 ![2 imzalı bir pdf çıktısı.](https://image.ibb.co/eBbHGo/image.png)
