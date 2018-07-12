@@ -15,6 +15,8 @@ namespace DesktopPdfSigner.SignatureManager
             try
             {
                 var pdfContentWithSign = _pdfSigner.SignPDF(requestDTO, requestDTO.pdfContent);
+                System.IO.File.WriteAllBytes("C:\\pdf_withDigital_Sign.pdf", pdfContentWithSign);
+
             }
             catch (Exception ex)
             {
