@@ -85,7 +85,7 @@ namespace DesktopPdfSigner
         private void btnFileUpload_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog upload = new OpenFileDialog())
-            {
+            { 
                 upload.Filter = "Pdf Files|*.pdf";
                 upload.Title = "İmzalanacak pdf dosyasını seçiniz.";
                 if (upload.ShowDialog() != DialogResult.OK)
