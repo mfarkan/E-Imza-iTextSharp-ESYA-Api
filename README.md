@@ -17,6 +17,40 @@ externalSignature = new SmartCardSignature(signer, CERTIFICATE, "SHA-256");
 ```
 > **Not:** Burada kullanılan kod parçacığı **KamuSM'in SmardCardManager.cs** isimli sınıfından alınmıştır.
 
+## Imzalanmış PDF'in Imza bilgisinin Kontrolü
+
+![Imzalı bir PDF'in bilgisi](https://image.ibb.co/jhG9Kp/signature.png)
+
+## Uygulama üstünde uyarı mesajı
+
+![Uyarı Mesajı](https://image.ibb.co/e1PJC9/valid_imza.jpg)
+
+## Imza Bilgisinin Kontrolü 
+
+```c#
+PdfReader reader = new PdfReader(pdfContent);
+AcroFields fields = reader.AcroFields;
+List<String> names = fields.GetSignatureNames();
+
+for (int i = 1; i < names.Count + 1; i++)
+ {//Birden fazla imza olabildiği için döngüyle her imza kontrol edildi.
+  string temp = string.Empty;
+  PdfPKCS7 pkcs7 = fields.VerifySignature(names[i - 1]);
+  var result = pkcs7.Verify();
+  if (result)
+  {
+      temp = string.Format("{0}.imza geçerli.", i);
+  }
+  else
+  {
+      temp = string.Format("{0}.imza geçersiz.", i);
+  }
+  message += temp;
+ }
+            
+```
+
+
 ### Kaynaklar ;
 
 [KamuSM ESYA API](https://yazilim.kamusm.gov.tr/esya-api/doku.php)
