@@ -21,7 +21,7 @@ externalSignature = new SmartCardSignature(signer, CERTIFICATE, "SHA-256");
 
 ![Imzalı bir PDF'in bilgisi](https://image.ibb.co/jhG9Kp/signature.png)
 
-## Uygulama üstünde uyarı mesajı
+## Uygulama Uyarı Mesajı
 
 ![Uyarı Mesajı](https://image.ibb.co/e1PJC9/valid_imza.jpg)
 
