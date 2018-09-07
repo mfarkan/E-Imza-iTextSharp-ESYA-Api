@@ -35,6 +35,7 @@
             this.chBoxPassword = new System.Windows.Forms.CheckBox();
             this.btnFileUpload = new System.Windows.Forms.Button();
             this.fileUpload = new System.Windows.Forms.OpenFileDialog();
+            this.btnCheckSignature = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -91,11 +92,23 @@
             // 
             this.fileUpload.FileName = "openFileDialog1";
             // 
+            // btnCheckSignature
+            // 
+            this.btnCheckSignature.Location = new System.Drawing.Point(14, 136);
+            this.btnCheckSignature.Margin = new System.Windows.Forms.Padding(2);
+            this.btnCheckSignature.Name = "btnCheckSignature";
+            this.btnCheckSignature.Size = new System.Drawing.Size(230, 34);
+            this.btnCheckSignature.TabIndex = 5;
+            this.btnCheckSignature.Text = "İmza Kontrol Et";
+            this.btnCheckSignature.UseVisualStyleBackColor = true;
+            this.btnCheckSignature.Click += new System.EventHandler(this.btnCheckSignature_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(286, 146);
+            this.ClientSize = new System.Drawing.Size(286, 196);
+            this.Controls.Add(this.btnCheckSignature);
             this.Controls.Add(this.btnFileUpload);
             this.Controls.Add(this.chBoxPassword);
             this.Controls.Add(this.btnSign);
@@ -120,6 +133,7 @@
         private System.Windows.Forms.CheckBox chBoxPassword;
         private System.Windows.Forms.Button btnFileUpload;
         private System.Windows.Forms.OpenFileDialog fileUpload;
+        private System.Windows.Forms.Button btnCheckSignature;
     }
 }
 

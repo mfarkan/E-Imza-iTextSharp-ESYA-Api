@@ -1,11 +1,15 @@
-﻿using System;
+﻿extern alias ITextSharp;
+using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Deployment.Application;
-using System.Windows.Forms;
 using DesktopPdfSigner.DTO.PDFSignDTO;
+using System.Windows.Forms;
 using System.Web;
 using System.IO;
+using ITextSharp::iTextSharp.text.pdf;
+using System.Collections.Generic;
+using ITextSharp::iTextSharp.text.pdf.security;
 
 namespace DesktopPdfSigner
 {
@@ -85,7 +89,7 @@ namespace DesktopPdfSigner
         private void btnFileUpload_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog upload = new OpenFileDialog())
-            { 
+            {
                 upload.Filter = "Pdf Files|*.pdf";
                 upload.Title = "İmzalanacak pdf dosyasını seçiniz.";
                 if (upload.ShowDialog() != DialogResult.OK)
@@ -94,6 +98,43 @@ namespace DesktopPdfSigner
                 this.requestDTO.pdfContent = File.ReadAllBytes(fileName);
             }
 
+        }
+        private string checkSignature(byte[] pdfContent)
+        {
+            PdfReader reader = new PdfReader(pdfContent);
+
+            AcroFields fields = reader.AcroFields;
+            List<String> names = fields.GetSignatureNames();
+
+            // Signature eklenmiş PDF dosyası buraya yollanmalı. Yoksa Verification Gerçekleşemez.
+
+            if (names.Count == 0)
+            {
+                return "İlgili PDF'e ait imza(lar) bulunamamıştır.";
+            }
+            string message = string.Empty;
+            for (int i = 1; i < names.Count + 1; i++)
+            {
+                string temp = string.Empty;
+                PdfPKCS7 pkcs7 = fields.VerifySignature(names[i - 1]);
+                var result = pkcs7.Verify();
+                if (result)
+                {
+                    temp = string.Format("{0}.imza geçerli.", i);
+                }
+                else
+                {
+                    temp = string.Format("{0}.imza geçersiz.", i);
+                }
+                message += temp;
+            }
+            reader.Close();
+            return message;
+        }
+        private void btnCheckSignature_Click(object sender, EventArgs e)
+        {
+            var message = checkSignature(this.requestDTO.pdfContent);
+            MessageBox.Show(message, "Mesaj", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
